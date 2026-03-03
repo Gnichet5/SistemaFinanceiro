@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "y47GzdbB+2Y7pvtBGb3B8ZLVtHIIt9ZvquNxgpAcbx0=",
+  "Source": "ItauCorretora.Api",
+  "BasePath": "_content/ItauCorretora.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

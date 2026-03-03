@@ -1,0 +1,16 @@
+c:\TesteItau\ItauCorretora.Application\bin\Release\net8.0\ItauCorretora.Application.deps.json
+c:\TesteItau\ItauCorretora.Application\bin\Release\net8.0\ItauCorretora.Application.dll
+c:\TesteItau\ItauCorretora.Application\bin\Release\net8.0\ItauCorretora.Application.pdb
+c:\TesteItau\ItauCorretora.Application\bin\Release\net8.0\ItauCorretora.Domain.dll
+c:\TesteItau\ItauCorretora.Application\bin\Release\net8.0\ItauCorretora.Domain.pdb
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.csproj.AssemblyReference.cache
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.GeneratedMSBuildEditorConfig.editorconfig
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.AssemblyInfoInputs.cache
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.AssemblyInfo.cs
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.csproj.CoreCompileInputs.cache
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.sourcelink.json
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorr.FC521CBB.Up2Date
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.dll
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\refint\ItauCorretora.Application.dll
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ItauCorretora.Application.pdb
+c:\TesteItau\ItauCorretora.Application\obj\Release\net8.0\ref\ItauCorretora.Application.dll

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "j8shZYko2Z8=",
+  "dgSpecHash": "Lzk8AH4FTBk=",
   "success": true,
-  "projectFilePath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
+  "projectFilePath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\guipe\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\guipe\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"

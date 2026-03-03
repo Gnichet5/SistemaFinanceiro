@@ -1,0 +1,12 @@
+c:\TesteItau\ItauCorretora.Domain\bin\Release\net8.0\ItauCorretora.Domain.deps.json
+c:\TesteItau\ItauCorretora.Domain\bin\Release\net8.0\ItauCorretora.Domain.dll
+c:\TesteItau\ItauCorretora.Domain\bin\Release\net8.0\ItauCorretora.Domain.pdb
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.GeneratedMSBuildEditorConfig.editorconfig
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.AssemblyInfoInputs.cache
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.AssemblyInfo.cs
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.csproj.CoreCompileInputs.cache
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.sourcelink.json
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.dll
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\refint\ItauCorretora.Domain.dll
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ItauCorretora.Domain.pdb
+c:\TesteItau\ItauCorretora.Domain\obj\Release\net8.0\ref\ItauCorretora.Domain.dll
