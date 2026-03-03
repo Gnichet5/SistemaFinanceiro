@@ -23,13 +23,14 @@ C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Infrast
 C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Infrastructure.pdb
 C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Application.dll
 C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Domain.dll
-C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Application.pdb
 C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Domain.pdb
+C:\TesteItau\ItauCorretora.Infrastructure\bin\Debug\net8.0\ItauCorretora.Application.pdb
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.csproj.AssemblyReference.cache
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.AssemblyInfoInputs.cache
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.AssemblyInfo.cs
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.csproj.CoreCompileInputs.cache
+C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.sourcelink.json
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorr.C7A95F89.Up2Date
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.dll
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\refint\ItauCorretora.Infrastructure.dll

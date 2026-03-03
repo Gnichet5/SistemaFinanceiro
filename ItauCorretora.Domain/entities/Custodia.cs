@@ -19,7 +19,7 @@ namespace ItauCorretora.Domain.Entities
         /// <summary>
         /// Ticker do ativo. Ex: "PETR4" para lote padrão, "PETR4F" para fracionário.
         /// </summary>
-        public string Ticker { get; private set; }
+        public required string Ticker { get; set; }
 
         /// <summary>
         /// Quantidade total de ações custodiadas.

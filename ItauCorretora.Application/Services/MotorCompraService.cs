@@ -10,22 +10,6 @@ using ItauCorretora.Domain.Interfaces;
 
 namespace ItauCorretora.Application.Services
 {
-    /// <summary>
-    /// MotorCompraService — O Caminho Crítico do Sistema
-    ///
-    /// Responsabilidade: Executar o ciclo de compra programada nos dias 5, 15 e 25 de cada mês.
-    ///
-    /// FLUXO DE EXECUÇÃO (por ativo):
-    ///   1. Coletar clientes ativos e calcular aportes do evento (1/3 do mensal)
-    ///   2. Somar aportes + saldos residuais = caixa total disponível
-    ///   3. Obter preço de fechamento do ativo (COTAHIST / B3)
-    ///   4. Calcular quantidade a comprar na Conta Master (separando Lote Padrão e Fracionário)
-    ///   5. Executar compra consolidada na Conta Master
-    ///   6. Ratear ações para Contas Filhote proporcionalmente ao aporte de cada cliente
-    ///   7. Atualizar preço médio nas custódias
-    ///   8. Publicar eventos de IR Dedo-Duro no Kafka
-    ///   9. Atualizar saldos residuais dos clientes
-    /// </summary>
     public class MotorCompraService
     {
         private readonly IClienteRepository _clienteRepository;

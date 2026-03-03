@@ -23,6 +23,7 @@ C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Applicatio
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.AssemblyInfoInputs.cache
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.AssemblyInfo.cs
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.csproj.CoreCompileInputs.cache
+C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.sourcelink.json
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorr.FC521CBB.Up2Date
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.dll
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\refint\ItauCorretora.Application.dll

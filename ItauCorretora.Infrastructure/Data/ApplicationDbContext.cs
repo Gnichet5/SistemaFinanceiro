@@ -8,6 +8,8 @@ namespace ItauCorretora.Infrastructure.Data
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Custodia> Custodias { get; set; }
         public DbSet<OrdemCompra> OrdensCompra { get; set; }
+        // 👇 ADICIONADO: DbSet para o Histórico
+        public DbSet<HistoricoCesta> HistoricoCestas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -44,7 +46,7 @@ namespace ItauCorretora.Infrastructure.Data
                        .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // NOVO: Mapeamento da OrdemCompra e RateioOrdem
+            // Mapeamento da OrdemCompra e RateioOrdem
             modelBuilder.Entity<OrdemCompra>(builder =>
             {
                 builder.ToTable("OrdensCompra");
@@ -53,19 +55,26 @@ namespace ItauCorretora.Infrastructure.Data
                 builder.Property(o => o.PrecoUnitario).HasPrecision(18, 2);
                 builder.Property(o => o.ValorTotalOrdem).HasPrecision(18, 2);
 
-                // Configura o Rateio como uma tabela "Filha" (Owned Entity)
-                // Isso resolve o erro de Primary Key (PK) que o terminal acusou
                 builder.OwnsMany(o => o.Rateios, x =>
                 {
                     x.ToTable("RateiosOrdem");
                     x.WithOwner().HasForeignKey("OrdemCompraId");
-                    x.Property<Guid>("Id"); // Criamos uma PK de sombra no banco
+                    x.Property<Guid>("Id"); 
                     x.HasKey("Id");
                     x.Property(r => r.ContaFilhote).IsRequired().HasMaxLength(20);
                     x.Property(r => r.ValorFinanceiroRateio).HasPrecision(18, 2);
                     x.Property(r => r.ResidualCliente).HasPrecision(18, 2);
                     x.Property(r => r.ValorIrDedoDuro).HasPrecision(18, 4);
                 });
+            });
+
+            // 👇 NOVO: Mapeamento do HistoricoCesta
+            modelBuilder.Entity<HistoricoCesta>(builder =>
+            {
+                builder.ToTable("HistoricoCestas");
+                builder.HasKey(h => h.Id);
+                builder.Property(h => h.Tickers).IsRequired().HasMaxLength(200);
+                builder.Property(h => h.DataCriacao).IsRequired();
             });
         }
     }

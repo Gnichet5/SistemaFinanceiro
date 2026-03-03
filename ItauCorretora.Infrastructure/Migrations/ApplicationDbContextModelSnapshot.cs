@@ -90,6 +90,25 @@ namespace ItauCorretora.Infrastructure.Migrations
                     b.ToTable("Custodias", (string)null);
                 });
 
+            modelBuilder.Entity("ItauCorretora.Domain.Entities.HistoricoCesta", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Tickers")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HistoricoCestas", (string)null);
+                });
+
             modelBuilder.Entity("ItauCorretora.Domain.Entities.OrdemCompra", b =>
                 {
                     b.Property<Guid>("Id")
