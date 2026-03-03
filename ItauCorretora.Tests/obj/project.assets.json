@@ -8602,11 +8602,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Tests\\ItauCorretora.Tests.csproj",
+      "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Tests\\ItauCorretora.Tests.csproj",
       "projectName": "ItauCorretora.Tests",
-      "projectPath": "C:\\TesteItau\\ItauCorretora.Tests\\ItauCorretora.Tests.csproj",
+      "projectPath": "c:\\TesteItau\\ItauCorretora.Tests\\ItauCorretora.Tests.csproj",
       "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-      "outputPath": "C:\\TesteItau\\ItauCorretora.Tests\\obj\\",
+      "outputPath": "c:\\TesteItau\\ItauCorretora.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"

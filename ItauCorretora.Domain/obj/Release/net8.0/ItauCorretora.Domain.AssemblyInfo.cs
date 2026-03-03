@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ItauCorretora.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cfa3986ddc68cae4b054953f1962d24bbfbdcb2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f9b36026f9f384e598c40d47daee1d1a0f05739")]
 [assembly: System.Reflection.AssemblyProductAttribute("ItauCorretora.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ItauCorretora.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

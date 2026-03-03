@@ -23,7 +23,12 @@ namespace ItauCorretora
     ///     "BootstrapServers": "kafka:9092",
     ///     "TopicIrDedoDuro": "fiscal.ir.dedoduro",
     ///     "TopicIrVenda": "fiscal.ir.venda",
-    ///     "TopicCompraExecutada": "operacoes.compra.executada"
+    ///     "TopicCompraExecutada": "operacoes.compra.executada",
+    ///     // se estiver usando Confluent Cloud/Azure Kafka, configure as credenciais:
+    ///     "ApiKey": "<confluent-api-key>",
+    ///     "ApiSecret": "<confluent-api-secret>",
+    ///     "SecurityProtocol": "SaslSsl",
+    ///     "SaslMechanism": "Plain"
     ///   },
     ///   "Cotacao": {
     ///     "DiretorioArquivos": "/data/cotahist"

@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
-                "projectPath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
+              "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
               },
-              "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
-                "projectPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj"
+              "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj"
               }
             }
           }
@@ -104,14 +104,14 @@
         }
       }
     },
-    "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
+    "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
+        "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
         "projectName": "ItauCorretora.Application",
-        "projectPath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
+        "projectPath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
         "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-        "outputPath": "c:\\TesteItau\\ItauCorretora.Application\\obj\\",
+        "outputPath": "C:\\TesteItau\\ItauCorretora.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -126,8 +126,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
-                "projectPath": "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj"
+              "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj"
               }
             }
           }
@@ -172,14 +172,14 @@
         }
       }
     },
-    "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
+    "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj",
+        "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj",
         "projectName": "ItauCorretora.Domain",
-        "projectPath": "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj",
+        "projectPath": "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj",
         "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-        "outputPath": "c:\\TesteItau\\ItauCorretora.Domain\\obj\\",
+        "outputPath": "C:\\TesteItau\\ItauCorretora.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -230,14 +230,14 @@
         }
       }
     },
-    "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
+    "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
+        "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
         "projectName": "ItauCorretora.Infrastructure",
-        "projectPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
+        "projectPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-        "outputPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\obj\\",
+        "outputPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -252,11 +252,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
-                "projectPath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
+              "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
               },
-              "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
-                "projectPath": "c:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj"
+              "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj"
               }
             }
           }

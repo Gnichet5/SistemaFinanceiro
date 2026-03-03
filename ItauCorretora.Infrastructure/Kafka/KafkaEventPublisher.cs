@@ -2,6 +2,10 @@ using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using Azure.Core;
+using Azure.Identity;
 using Confluent.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,10 +25,15 @@ namespace ItauCorretora.Infrastructure.Kafka
     /// Configuração via appsettings.json (injetada por IOptions):
     /// {
     ///   "Kafka": {
-    ///     "BootstrapServers": "localhost:9092",
+    ///     "BootstrapServers": "<cluster-bootstrap-servers>",
     ///     "TopicIrDedoDuro": "fiscal.ir.dedoduro",
     ///     "TopicIrVenda": "fiscal.ir.venda",
-    ///     "TopicCompraExecutada": "operacoes.compra.executada"
+    ///     "TopicCompraExecutada": "operacoes.compra.executada",
+    ///     // Azure Confluent Cloud requires SASL/SSL parameters below. Use KeyVault or secrets for production.
+    ///     "ApiKey": "<confluent-api-key>",
+    ///     "ApiSecret": "<confluent-api-secret>",
+    ///     "SecurityProtocol": "SaslSsl",
+    ///     "SaslMechanism": "Plain"
     ///   }
     /// }
     /// </summary>
@@ -49,7 +58,7 @@ namespace ItauCorretora.Infrastructure.Kafka
             _settings = settings.Value;
             _logger = logger;
 
-            // Configuração do produtor Kafka com garantias de entrega
+            // Configuração base do produtor Kafka com garantias de entrega
             var config = new ProducerConfig
             {
                 BootstrapServers = _settings.BootstrapServers,
@@ -64,7 +73,38 @@ namespace ItauCorretora.Infrastructure.Kafka
                 CompressionType = CompressionType.Snappy
             };
 
-            _producer = new ProducerBuilder<string, string>(config).Build();
+            // Se tiver chaves explícitas, usar SASL Plain (para compatibilidade backward).
+            if (!string.IsNullOrEmpty(_settings.ApiKey) && !string.IsNullOrEmpty(_settings.ApiSecret))
+            {
+                config.SecurityProtocol = SecurityProtocol.SaslSsl;
+                config.SaslMechanism = SaslMechanism.Plain;
+                config.SaslUsername = _settings.ApiKey;
+                config.SaslPassword = _settings.ApiSecret;
+            }
+            else
+            {
+                // Caso contrário assume-se Confluent Cloud com autenticação OAuthBearer via Azure Managed Identity
+                config.SecurityProtocol = SecurityProtocol.SaslSsl;
+                config.SaslMechanism = SaslMechanism.OAuthBearer;
+                // Oidc method and additional settings may be set via environment variables
+                config.SaslOauthbearerMethod = SaslOauthbearerMethod.Oidc;
+                config.SaslOauthbearerTokenEndpointUrl = _settings.SaslOauthbearerTokenEndpointUrl;
+                config.SaslOauthbearerConfig = _settings.SaslOauthbearerConfig;
+            }
+
+            // registra callback de renovação de token quando usar OAuthBearer
+            if (config.SaslMechanism == SaslMechanism.OAuthBearer)
+            {
+                var builder = new ProducerBuilder<string, string>(config);
+                builder.SetOAuthBearerTokenRefreshHandler(OAuthBearerTokenRefreshCallback);
+                _producer = builder.Build();
+            }
+            else
+            {
+                _producer = new ProducerBuilder<string, string>(config).Build();
+            }
+
+            // produção já inicializada acima de acordo com mecanismo de autenticação
         }
 
         // =========================================================
@@ -173,6 +213,37 @@ namespace ItauCorretora.Infrastructure.Kafka
             _producer.Dispose();
             _disposed = true;
         }
+
+        /// <summary>
+        /// Callback responsável por renovar tokens OAuthBearer usando Azure Managed Identity
+        /// Este método será invocado pelo cliente Kafka sempre que um novo token for necessário.
+        /// </summary>
+        private static void OAuthBearerTokenRefreshCallback(IClient client, string config)
+        {
+            try
+            {
+                var credential = new DefaultAzureCredential();
+                var scope = Environment.GetEnvironmentVariable("KAFKA_SCOPE") ?? string.Empty;
+                var tokenRequestContext = new TokenRequestContext(new[] { scope });
+                AccessToken accessTokenResponse = credential.GetToken(tokenRequestContext);
+
+                var tokenValue = accessTokenResponse.Token;
+                var expirationMs = DateTimeOffset.UtcNow.AddMinutes(55).ToUnixTimeMilliseconds();
+
+                // extensões opcionais para Confluent logical cluster / identity pool
+                var extensions = new Dictionary<string, string>();
+                var logical = Environment.GetEnvironmentVariable("KAFKA_LOGICAL_CLUSTER_ID");
+                var pool = Environment.GetEnvironmentVariable("KAFKA_IDENTITY_POOL_ID");
+                if (!string.IsNullOrEmpty(logical)) extensions["logicalCluster"] = logical;
+                if (!string.IsNullOrEmpty(pool)) extensions["identityPoolId"] = pool;
+
+                client.OAuthBearerSetToken(tokenValue, expirationMs, "bearer", extensions);
+            }
+            catch (Exception ex)
+            {
+                client.OAuthBearerSetTokenFailure(ex.ToString());
+            }
+        }
     }
 
     /// <summary>
@@ -181,9 +252,19 @@ namespace ItauCorretora.Infrastructure.Kafka
     /// </summary>
     public class KafkaSettings
     {
-        public string BootstrapServers { get; set; } = "localhost:9092";
+        public string BootstrapServers { get; set; } = string.Empty;
         public string TopicIrDedoDuro { get; set; } = "fiscal.ir.dedoduro";
         public string TopicIrVenda { get; set; } = "fiscal.ir.venda";
         public string TopicCompraExecutada { get; set; } = "operacoes.compra.executada";
+
+        // Confluent Cloud / Azure Kafka authentication
+        public string? ApiKey { get; set; }
+        public string? ApiSecret { get; set; }
+        public string? SecurityProtocol { get; set; }
+        public string? SaslMechanism { get; set; }
+
+        // In case oauth settings are stored in config instead of env
+        public string? SaslOauthbearerTokenEndpointUrl { get; set; }
+        public string? SaslOauthbearerConfig { get; set; }
     }
 }
