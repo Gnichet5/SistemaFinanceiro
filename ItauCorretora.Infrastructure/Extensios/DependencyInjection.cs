@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Azure.Storage.Blobs;
+using Azure.Identity;
 using ItauCorretora.Application.Services;
 using ItauCorretora.Domain.Interfaces;
 using ItauCorretora.Infrastructure;
@@ -25,6 +27,10 @@ namespace ItauCorretora
     ///   },
     ///   "Cotacao": {
     ///     "DiretorioArquivos": "/data/cotahist"
+    ///   },
+    ///   "AzureStorageBlob": {
+    ///     "Endpoint": "https://{StorageAccountName}.blob.core.windows.net",
+    ///     "ContainerName": "cotahist"
     ///   }
     /// }
     /// </summary>
@@ -37,6 +43,25 @@ namespace ItauCorretora
             // --- Configurações via Options Pattern ---
             services.Configure<KafkaSettings>(configuration.GetSection("Kafka"));
             services.Configure<CotacaoSettings>(configuration.GetSection("Cotacao"));
+            services.Configure<AzureCotacaoSettings>(configuration.GetSection("AzureStorageBlob"));
+
+            // --- Infraestrutura: Azure Blob Storage (com Managed Identity) ---
+            var azureSettings = configuration.GetSection("AzureStorageBlob").Get<AzureCotacaoSettings>();
+            if (azureSettings?.Endpoint != null && !string.IsNullOrWhiteSpace(azureSettings.Endpoint))
+            {
+                // Registrar factory para criar BlobContainerClient quando Azure está configurado
+                services.AddSingleton(sp =>
+                {
+                    var endPoint = azureSettings.Endpoint;
+                    var containerName = azureSettings.ContainerName ?? "cotahist";
+                    
+                    var blobServiceClient = new BlobServiceClient(
+                        new Uri(endPoint),
+                        new DefaultAzureCredential());
+                    
+                    return blobServiceClient.GetBlobContainerClient(containerName) as BlobContainerClient;
+                });
+            }
 
             // --- Infraestrutura: Kafka ---
             services.AddSingleton<IEventPublisher, KafkaEventPublisher>();

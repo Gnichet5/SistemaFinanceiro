@@ -53,6 +53,9 @@ namespace ItauCorretora.Infrastructure.Parsers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Faz o parse de um arquivo COTAHIST do sistema de arquivos local (compatibilidade)
+        /// </summary>
         public async Task<Dictionary<string, decimal>> ParsearAsync(
             string caminhoArquivo,
             IEnumerable<string>? filtroTickers = null,
@@ -62,6 +65,23 @@ namespace ItauCorretora.Infrastructure.Parsers
                 throw new FileNotFoundException(
                     $"Arquivo COTAHIST não encontrado: {caminhoArquivo}");
 
+            _logger.LogInformation("Abrindo arquivo COTAHIST: {Arquivo}", caminhoArquivo);
+
+            using var fileStream = File.OpenRead(caminhoArquivo);
+            return await ParsearAsync(fileStream, filtroTickers, ct);
+        }
+
+        /// <summary>
+        /// Faz o parse de um stream contendo dados COTAHIST
+        /// </summary>
+        public async Task<Dictionary<string, decimal>> ParsearAsync(
+            Stream stream,
+            IEnumerable<string>? filtroTickers = null,
+            CancellationToken ct = default)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
             var resultado = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
             var filtroSet = filtroTickers is not null
                 ? new HashSet<string>(filtroTickers, StringComparer.OrdinalIgnoreCase)
@@ -70,10 +90,10 @@ namespace ItauCorretora.Infrastructure.Parsers
             long linhasProcessadas = 0;
             long linhasValidas = 0;
 
-            _logger.LogInformation("Iniciando parse do arquivo COTAHIST: {Arquivo}", caminhoArquivo);
+            _logger.LogInformation("Iniciando parse do stream COTAHIST");
 
             using var reader = new StreamReader(
-                path: caminhoArquivo,
+                stream,
                 encoding: Encoding.Latin1,
                 detectEncodingFromByteOrderMarks: false,
                 bufferSize: 65536);

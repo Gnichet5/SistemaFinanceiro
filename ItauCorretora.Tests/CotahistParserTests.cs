@@ -2,6 +2,7 @@ using ItauCorretora.Infrastructure.Parsers;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -11,6 +12,26 @@ namespace ItauCorretora.Tests
     {
         [Fact]
         public async Task ParsearAsync_DeveExtrairPrecoCorreto_QuandoLinhaForValida()
+        {
+            var mockLogger = new Mock<ILogger<CotahistParser>>();
+            var parser = new CotahistParser(mockLogger.Object);
+            
+            // Cria um stream com dados COTAHIST
+            var espacos = new string(' ', 81);
+            var linhaItub4 = "012026030502ITUB4       010" + espacos + "0000000003500";
+            var linhaCompleta = linhaItub4.PadRight(245, ' ');
+            
+            var bytes = Encoding.Latin1.GetBytes(linhaCompleta);
+            using var stream = new MemoryStream(bytes);
+
+            var resultado = await parser.ParsearAsync(stream);
+
+            Assert.True(resultado.ContainsKey("ITUB4"));
+            Assert.Equal(35.00m, resultado["ITUB4"]);
+        }
+
+        [Fact]
+        public async Task ParsearAsync_ComArquivoLocal_DeveExtrairPrecoCorreto()
         {
             var mockLogger = new Mock<ILogger<CotahistParser>>();
             var parser = new CotahistParser(mockLogger.Object);

@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {}
+    "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {}
   },
   "projects": {
     "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
@@ -130,14 +130,14 @@
         }
       }
     },
-    "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
+    "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
+        "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
         "projectName": "ItauCorretora.Infrastructure",
-        "projectPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
+        "projectPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-        "outputPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\obj\\",
+        "outputPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -176,6 +176,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.14.0, )"
+            },
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.24.0, )"
+            },
             "Confluent.Kafka": {
               "target": "Package",
               "version": "[2.13.2, )"

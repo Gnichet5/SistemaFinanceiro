@@ -173,3 +173,6 @@ c:\TesteItau\ItauCorretora.Api\obj\Release\net8.0\refint\ItauCorretora.Api.dll
 c:\TesteItau\ItauCorretora.Api\obj\Release\net8.0\ItauCorretora.Api.pdb
 c:\TesteItau\ItauCorretora.Api\obj\Release\net8.0\ItauCorretora.Api.genruntimeconfig.cache
 c:\TesteItau\ItauCorretora.Api\obj\Release\net8.0\ref\ItauCorretora.Api.dll
+c:\TesteItau\ItauCorretora.Api\bin\Release\net8.0\Azure.Storage.Blobs.dll
+c:\TesteItau\ItauCorretora.Api\bin\Release\net8.0\Azure.Storage.Common.dll
+c:\TesteItau\ItauCorretora.Api\bin\Release\net8.0\System.IO.Hashing.dll

@@ -173,11 +173,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
+      "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
       "projectName": "ItauCorretora.Application",
-      "projectPath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
+      "projectPath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj",
       "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-      "outputPath": "c:\\TesteItau\\ItauCorretora.Application\\obj\\",
+      "outputPath": "C:\\TesteItau\\ItauCorretora.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
