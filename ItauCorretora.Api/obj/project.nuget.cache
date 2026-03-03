@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Be+uZyZPB14=",
+  "dgSpecHash": "Jf08s7VrizQ=",
   "success": true,
-  "projectFilePath": "c:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
+  "projectFilePath": "C:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\guipe\\.nuget\\packages\\azure.core\\1.46.2\\azure.core.1.46.2.nupkg.sha512",
     "C:\\Users\\guipe\\.nuget\\packages\\azure.extensions.aspnetcore.configuration.secrets\\1.4.0\\azure.extensions.aspnetcore.configuration.secrets.1.4.0.nupkg.sha512",

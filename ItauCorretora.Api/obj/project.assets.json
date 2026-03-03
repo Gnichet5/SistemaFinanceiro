@@ -4272,11 +4272,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
+      "projectUniqueName": "C:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
       "projectName": "ItauCorretora.Api",
-      "projectPath": "c:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
+      "projectPath": "C:\\TesteItau\\ItauCorretora.Api\\ItauCorretora.Api.csproj",
       "packagesPath": "C:\\Users\\guipe\\.nuget\\packages\\",
-      "outputPath": "c:\\TesteItau\\ItauCorretora.Api\\obj\\",
+      "outputPath": "C:\\TesteItau\\ItauCorretora.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\guipe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4294,8 +4294,8 @@
             "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
               "projectPath": "c:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
             },
-            "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
-              "projectPath": "C:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj"
+            "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj": {
+              "projectPath": "c:\\TesteItau\\ItauCorretora.Infrastructure\\ItauCorretora.Infrastructure.csproj"
             }
           }
         }
