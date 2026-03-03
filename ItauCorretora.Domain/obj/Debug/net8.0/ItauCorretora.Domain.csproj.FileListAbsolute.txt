@@ -20,3 +20,4 @@ C:\TesteItau\ItauCorretora.Domain\obj\Debug\net8.0\ItauCorretora.Domain.dll
 C:\TesteItau\ItauCorretora.Domain\obj\Debug\net8.0\refint\ItauCorretora.Domain.dll
 C:\TesteItau\ItauCorretora.Domain\obj\Debug\net8.0\ItauCorretora.Domain.pdb
 C:\TesteItau\ItauCorretora.Domain\obj\Debug\net8.0\ref\ItauCorretora.Domain.dll
+C:\TesteItau\ItauCorretora.Domain\obj\Debug\net8.0\ItauCorretora.Domain.sourcelink.json

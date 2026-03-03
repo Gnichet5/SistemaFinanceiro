@@ -36,3 +36,4 @@ C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\refint\ItauCorretora.
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.pdb
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.genruntimeconfig.cache
 C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ref\ItauCorretora.Infrastructure.dll
+C:\TesteItau\ItauCorretora.Infrastructure\obj\Debug\net8.0\ItauCorretora.Infrastructure.sourcelink.json
