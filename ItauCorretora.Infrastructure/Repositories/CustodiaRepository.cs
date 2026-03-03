@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ItauCorretora.Domain.Entities;
-using ItauCorretora.Domain.Interfaces;
+using ItauCorretora.Domain.Entities; 
+using ItauCorretora.Domain.Interfaces; 
 using ItauCorretora.Infrastructure.Data;
 
 namespace ItauCorretora.Infrastructure.Repositories
@@ -28,10 +28,14 @@ namespace ItauCorretora.Infrastructure.Repositories
             await _context.SaveChangesAsync(ct);
         }
 
-        public Task<decimal> SomarVendasDoMesAsync(Guid clienteId, int mes, int ano, CancellationToken ct = default)
+        public async Task<decimal> SomarVendasDoMesAsync(Guid clienteId, int mes, int ano, CancellationToken ct = default)
         {
-            // Implementação simplificada para o teste: somar ordens de venda se existirem
-            return Task.FromResult(0m); 
+            return await _context.Set<RateioOrdem>()
+                .Where(r => r.ClienteId == clienteId)
+                .Where(r => _context.OrdensCompra.Any(o => o.Id == r.OrdemCompraId && 
+                                                        o.DataExecucao.Month == mes && 
+                                                        o.DataExecucao.Year == ano))
+                .SumAsync(r => r.ValorFinanceiroRateio, ct);
         }
     }
 }

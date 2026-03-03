@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using ItauCorretora.Infrastructure.Data;
 using ItauCorretora;
-using Serilog; // <-- Referência do Serilog
+using Serilog; 
+// Novos usings para a Rentabilidade e o Parser
+using ItauCorretora.Application.Interfaces;
+using ItauCorretora.Application.Services;
+using ItauCorretora.Infrastructure.Parsers;
 
 // 1. Configuração do Serilog para capturar até os erros de inicialização (Bootstrap Logger)
 Log.Logger = new LoggerConfiguration()
@@ -28,19 +32,27 @@ try
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
             mySqlOptions => 
             {
-                // Se o banco piscar, ele espera 5 segundos e tenta de novo (até 3 vezes)
                 mySqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3, 
                     maxRetryDelay: TimeSpan.FromSeconds(5), 
                     errorNumbersToAdd: null);
             }));
             
+    // Injeção dos serviços antigos do motor
     builder.Services.AdicionarSistemaComprasProgramadas(builder.Configuration);
+
+    builder.Services.AddScoped<MotorCompraService>();
+    builder.Services.AddScoped<IRebalanceamentoService, RebalanceamentoService>();
+    // 4. Injeção de Dependência dos NOVOS serviços de Rentabilidade
+    
+    builder.Services.AddScoped<IRentabilidadeService, RentabilidadeService>();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    
     var app = builder.Build();
+    
     app.UseSerilogRequestLogging(); 
 
     if (app.Environment.IsDevelopment())
@@ -61,6 +73,5 @@ catch (Exception ex)
 }
 finally
 {
-    // Garante que o último log seja escrito antes do programa fechar
     Log.CloseAndFlush();
 }

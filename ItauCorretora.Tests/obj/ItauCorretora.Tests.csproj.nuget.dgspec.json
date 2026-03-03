@@ -242,6 +242,9 @@
             "projectReferences": {
               "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj": {
                 "projectPath": "C:\\TesteItau\\ItauCorretora.Application\\ItauCorretora.Application.csproj"
+              },
+              "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj": {
+                "projectPath": "C:\\TesteItau\\ItauCorretora.Domain\\ItauCorretora.Domain.csproj"
               }
             }
           }
