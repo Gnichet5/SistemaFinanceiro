@@ -7,6 +7,8 @@ using ItauCorretora.Application.Services;
 using ItauCorretora.Infrastructure.Parsers;
 using ItauCorretora.Domain.Interfaces;
 using ItauCorretora.Infrastructure.Repositories;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -17,6 +19,20 @@ try
     Log.Information("Iniciando a API da Itaú Corretora...");
 
     var builder = WebApplication.CreateBuilder(args);
+
+    // Add Azure Key Vault configuration
+    var keyVaultName = builder.Configuration["KeyVaultName"];
+    if (!string.IsNullOrEmpty(keyVaultName))
+    {
+        var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+        builder.Configuration.AddAzureKeyVault(
+            keyVaultUri,
+            new DefaultAzureCredential(),
+            new AzureKeyVaultConfigurationOptions
+            {
+                ReloadInterval = TimeSpan.FromHours(1)
+            });
+    }
 
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
