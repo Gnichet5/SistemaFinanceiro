@@ -19,7 +19,7 @@ namespace ItauCorretora.Domain.Entities
         public Guid Id { get; private set; }
         public DateTime DataExecucao { get; private set; }
         public int DiaCiclo { get; private set; } // 5, 15 ou 25
-        public string Ticker { get; private set; }
+        public required string Ticker { get; set; }
         public TipoMercado TipoMercado { get; private set; }
         public StatusOrdem Status { get; private set; }
 
@@ -157,7 +157,7 @@ namespace ItauCorretora.Domain.Entities
     {
         public Guid OrdemCompraId { get; private set; }
         public Guid ClienteId { get; private set; }
-        public string ContaFilhote { get; private set; }
+        public required string ContaFilhote { get; set; }
         public long QuantidadeRateada { get; private set; }    // Ações distribuídas (truncadas)
         public decimal ValorFinanceiroRateio { get; private set; } // QuantidadeRateada * Preco
         public decimal ResidualCliente { get; private set; }   // Valor que sobrou (< 1 ação)

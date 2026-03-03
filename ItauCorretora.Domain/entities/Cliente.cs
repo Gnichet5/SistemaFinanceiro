@@ -13,9 +13,9 @@ namespace ItauCorretora.Domain.Entities
     {
         // --- Propriedades de Identidade e Dados Básicos ---
         public Guid Id { get; private set; }
-        public string Nome { get; private set; }
-        public string Cpf { get; private set; }
-        public string ContaFilhote { get; private set; } // Conta vinculada na corretora
+        public required string Nome { get; set; }
+        public required string Cpf { get; set; }
+        public required string ContaFilhote { get; set; } // Conta vinculada na corretora
         public StatusCliente Status { get; private set; }
 
         // --- Propriedades Financeiras ---

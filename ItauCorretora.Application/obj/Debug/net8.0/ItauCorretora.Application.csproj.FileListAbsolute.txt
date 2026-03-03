@@ -28,3 +28,4 @@ C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Applicatio
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\refint\ItauCorretora.Application.dll
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.pdb
 C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ref\ItauCorretora.Application.dll
+C:\TesteItau\ItauCorretora.Application\obj\Debug\net8.0\ItauCorretora.Application.sourcelink.json

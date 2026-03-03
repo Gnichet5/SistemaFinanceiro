@@ -28,10 +28,10 @@ namespace ItauCorretora.Infrastructure.Repositories
             await _context.SaveChangesAsync(ct);
         }
 
-        public async Task<decimal> SomarVendasDoMesAsync(Guid clienteId, int mes, int ano, CancellationToken ct = default)
+        public Task<decimal> SomarVendasDoMesAsync(Guid clienteId, int mes, int ano, CancellationToken ct = default)
         {
             // Implementação simplificada para o teste: somar ordens de venda se existirem
-            return 0m; 
+            return Task.FromResult(0m); 
         }
     }
 }
