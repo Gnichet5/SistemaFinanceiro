@@ -16,9 +16,6 @@ namespace ItauCorretora.Api.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Executa o ciclo de compra manualmente para fins de teste.
-        /// </summary>
         [HttpPost("executar-compra")]
         public async Task<IActionResult> ExecutarCompraManual([FromBody] ExecutarCompraRequest request, CancellationToken ct)
         {

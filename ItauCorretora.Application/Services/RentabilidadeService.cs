@@ -9,7 +9,7 @@ namespace ItauCorretora.Application.Services
     {
         private readonly IClienteRepository _clienteRepository;
         private readonly ICustodiaRepository _custodiaRepository;
-        private readonly ICotacaoService _cotacaoService; // <-- Usando a Interface correta da Arquitetura Limpa
+        private readonly ICotacaoService _cotacaoService; 
         private readonly ILogger<RentabilidadeService> _logger;
 
         public RentabilidadeService(

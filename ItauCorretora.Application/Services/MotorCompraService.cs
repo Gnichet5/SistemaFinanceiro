@@ -10,22 +10,6 @@ using ItauCorretora.Domain.Interfaces;
 
 namespace ItauCorretora.Application.Services
 {
-    /// <summary>
-    /// MotorCompraService — O Caminho Crítico do Sistema
-    ///
-    /// Responsabilidade: Executar o ciclo de compra programada nos dias 5, 15 e 25 de cada mês.
-    ///
-    /// FLUXO DE EXECUÇÃO (por ativo):
-    ///   1. Coletar clientes ativos e calcular aportes do evento (1/3 do mensal)
-    ///   2. Somar aportes + saldos residuais = caixa total disponível
-    ///   3. Obter preço de fechamento do ativo (COTAHIST / B3)
-    ///   4. Calcular quantidade a comprar na Conta Master (separando Lote Padrão e Fracionário)
-    ///   5. Executar compra consolidada na Conta Master
-    ///   6. Ratear ações para Contas Filhote proporcionalmente ao aporte de cada cliente
-    ///   7. Atualizar preço médio nas custódias
-    ///   8. Publicar eventos de IR Dedo-Duro no Kafka
-    ///   9. Atualizar saldos residuais dos clientes
-    /// </summary>
     public class MotorCompraService
     {
         private readonly IClienteRepository _clienteRepository;
@@ -35,17 +19,14 @@ namespace ItauCorretora.Application.Services
         private readonly IEventPublisher _eventPublisher;
         private readonly ILogger<MotorCompraService> _logger;
 
-        // Dias do mês em que o motor executa
+
         private static readonly int[] DiasDeExecucao = { 5, 15, 25 };
 
-        // Limite de isenção de IR sobre vendas mensais
         private const decimal LimiteIsencaoIrVendas = 20_000m;
 
-        // Alíquota de IR sobre lucro em vendas (rebalanceamento)
         private const decimal AliquotaIrVendas = 0.20m;
 
-        // Alíquota de IR Dedo-Duro (retenção na fonte em compras)
-        private const decimal AliquotaIrDedoDuro = 0.00005m; // 0,005%
+        private const decimal AliquotaIrDedoDuro = 0.00005m; 
 
         public MotorCompraService(
             IClienteRepository clienteRepository,
@@ -63,22 +44,11 @@ namespace ItauCorretora.Application.Services
             _logger = logger;
         }
 
-        // =========================================================
-        // PONTO DE ENTRADA PRINCIPAL
-        // =========================================================
-
-        /// <summary>
-        /// Executa o ciclo de compra para todos os ativos elegíveis.
-        /// Chamado por um Hosted Service / Scheduled Job nos dias 5, 15 e 25.
-        /// </summary>
-        /// <param name="tickers">Lista de tickers de ações a comprar neste ciclo.</param>
-        /// <param name="dataReferencia">Data de execução (deve ser dia 5, 15 ou 25).</param>
         public async Task ExecutarCicloDeCompraAsync(
             IEnumerable<string> tickers,
             DateTime dataReferencia,
             CancellationToken ct = default)
         {
-            // Valida se hoje é um dia de execução
             if (!DiasDeExecucao.Contains(dataReferencia.Day))
             {
                 _logger.LogWarning(
@@ -91,7 +61,7 @@ namespace ItauCorretora.Application.Services
                 "=== INÍCIO DO CICLO DE COMPRA — Dia {Dia}/{Mes}/{Ano} ===",
                 dataReferencia.Day, dataReferencia.Month, dataReferencia.Year);
 
-            // Busca todos os clientes ativos no banco
+
             var clientesAtivos = (await _clienteRepository.ObterClientesAtivosAsync(ct)).ToList();
 
             if (!clientesAtivos.Any())
@@ -122,10 +92,6 @@ namespace ItauCorretora.Application.Services
             _logger.LogInformation("=== FIM DO CICLO DE COMPRA ===");
         }
 
-        // =========================================================
-        // PROCESSAMENTO POR ATIVO
-        // =========================================================
-
         private async Task ProcessarAtivoAsync(
             string ticker,
             List<Cliente> clientesAtivos,
@@ -134,7 +100,6 @@ namespace ItauCorretora.Application.Services
         {
             _logger.LogInformation("--- Processando ativo: {Ticker} ---", ticker);
 
-            // PASSO 1: Obter preço de fechamento da B3 (via COTAHIST)
             var precoFechamento = await _cotacaoService.ObterPrecoFechamentoAsync(ticker, dataReferencia, ct);
 
             if (precoFechamento is null or <= 0)
@@ -147,10 +112,7 @@ namespace ItauCorretora.Application.Services
 
             _logger.LogInformation("Preço de fechamento {Ticker}: R$ {Preco:F2}", ticker, precoFechamento);
 
-            // PASSO 2: Calcular aportes de cada cliente para este evento
             var aportesPorCliente = CalcularAportesPorCliente(clientesAtivos);
-
-            // PASSO 3: Somar o caixa total disponível para compra na Conta Master
             var caixaTotalMaster = aportesPorCliente.Values.Sum();
 
             if (caixaTotalMaster <= 0)
@@ -162,7 +124,7 @@ namespace ItauCorretora.Application.Services
             _logger.LogInformation(
                 "Caixa total disponível para {Ticker}: R$ {Caixa:F2}", ticker, caixaTotalMaster);
 
-            // PASSO 4: Calcular compra na Conta Master (Lote Padrão + Fracionário)
+ 
             var (qtdLotePadrao, qtdFracionario) =
                 CalcularQuantidadeCompra(caixaTotalMaster, precoFechamento.Value);
 
@@ -170,7 +132,7 @@ namespace ItauCorretora.Application.Services
                 "Compra calculada — Lote Padrão: {LP} ações | Fracionário: {FR} ações",
                 qtdLotePadrao, qtdFracionario);
 
-            // PASSO 5: Criar e executar ordens na Conta Master
+
             if (qtdLotePadrao > 0)
             {
                 var ordemLP = OrdemCompra.CriarParaLotePadrao(
@@ -196,11 +158,7 @@ namespace ItauCorretora.Application.Services
         // CÁLCULO DE APORTES (1/3 do Mensal + Resíduo)
         // =========================================================
 
-        /// <summary>
-        /// Calcula o aporte efetivo de cada cliente para este evento de compra.
-        /// Fórmula: Aporte = (AporteMensal / 3) + SaldoResidual acumulado
-        /// O saldo residual é o "troco" de compras anteriores que ficou sem destino.
-        /// </summary>
+
         private Dictionary<Guid, decimal> CalcularAportesPorCliente(List<Cliente> clientes)
         {
             var aportes = new Dictionary<Guid, decimal>();
@@ -228,35 +186,19 @@ namespace ItauCorretora.Application.Services
         // CÁLCULO DE QUANTIDADE (LOTE PADRÃO + FRACIONÁRIO)
         // =========================================================
 
-        /// <summary>
-        /// Divide o caixa disponível em Lote Padrão (múltiplos de 100) e Fracionário (1-99).
-        ///
-        /// ALGORITMO:
-        ///   1. Quantidade total acessível = Floor(Caixa / Preco)
-        ///   2. Lotes padrão = Floor(qtdTotal / 100) * 100
-        ///   3. Fracionário = qtdTotal - qtdLotePadrao (restante, 0 a 99)
-        ///
-        /// Exemplo: Caixa = R$ 1.550, Preço = R$ 10
-        ///   qtdTotal = 155 ações
-        ///   LotePadrao = 100 ações (1 lote)
-        ///   Fracionário = 55 ações
-        /// </summary>
         private (long qtdLotePadrao, long qtdFracionario) CalcularQuantidadeCompra(
             decimal caixaTotal, decimal precoUnitario)
         {
             if (precoUnitario <= 0)
                 return (0, 0);
 
-            // Quantidade total que o caixa permite comprar (truncamento = sem dívida)
             var qtdTotal = (long)Math.Floor(caixaTotal / precoUnitario);
 
             if (qtdTotal <= 0)
                 return (0, 0);
 
-            // Separa lotes padrão (arredonda para baixo no múltiplo de 100)
             var qtdLotePadrao = (qtdTotal / 100) * 100;
 
-            // O fracionário é o que sobrou após tirar os lotes
             var qtdFracionario = qtdTotal - qtdLotePadrao;
 
             return (qtdLotePadrao, qtdFracionario);
@@ -274,13 +216,9 @@ namespace ItauCorretora.Application.Services
             DateTime dataReferencia,
             CancellationToken ct)
         {
-            // Persiste a ordem como "Pendente"
             await _ordemCompraRepository.SalvarAsync(ordem, ct);
 
-            // Simula execução na Conta Master (integração com mesa de operações)
             ordem.MarcarComoExecutada();
-
-            // Publica evento de compra executada no Kafka
             await _eventPublisher.PublicarCompraExecutadaAsync(new CompraExecutadaEvent
             {
                 OrdemCompraId = ordem.Id,
@@ -297,7 +235,7 @@ namespace ItauCorretora.Application.Services
                 ordem.Id, ordem.QuantidadeTotal, ordem.Ticker,
                 ordem.PrecoUnitario, ordem.ValorTotalOrdem);
 
-            // PASSO 6: Ratear ações para as Contas Filhote
+
             await RatearAcoesParaClientesAsync(
                 ordem, clientes, aportesPorCliente, caixaTotalMaster, ct);
 
@@ -309,21 +247,6 @@ namespace ItauCorretora.Application.Services
         // ALGORITMO DE RATEIO PROPORCIONAL (Com Truncamento)
         // =========================================================
 
-        /// <summary>
-        /// Distribui as ações compradas na Conta Master proporcionalmente para as Contas Filhote.
-        ///
-        /// ALGORITMO DE RATEIO:
-        ///   Para cada cliente:
-        ///     ProporcaoCliente = AporteCliente / CaixaTotalMaster
-        ///     QtdBruta = ProporcaoCliente * QuantidadeTotalComprada
-        ///     QtdRateada = Floor(QtdBruta)  ← TRUNCAMENTO para não gerar fração de ação
-        ///     ResidualValor = AporteCliente - (QtdRateada * PrecoUnitario)
-        ///
-        /// O resíduo em valor (não ação) é salvo no saldo do cliente e usado no próximo ciclo.
-        ///
-        /// IMPORTANTE: Ações que "sobram" após o truncamento ficam na Conta Master
-        /// e são usadas como resíduo para abater o custo da próxima compra consolidada.
-        /// </summary>
         private async Task RatearAcoesParaClientesAsync(
             OrdemCompra ordem,
             List<Cliente> clientes,
@@ -345,13 +268,10 @@ namespace ItauCorretora.Application.Services
 
                 var aporteCliente = aportesPorCliente[cliente.Id];
 
-                // Proporção deste cliente no caixa total
                 var proporcao = aporteCliente / caixaTotalMaster;
 
-                // Quantidade bruta (pode ter decimais)
                 var qtdBruta = proporcao * ordem.QuantidadeTotal;
 
-                // TRUNCAMENTO: só ações inteiras podem ser distribuídas
                 var qtdRateada = (long)Math.Floor(qtdBruta);
 
                 if (qtdRateada <= 0)
@@ -360,13 +280,10 @@ namespace ItauCorretora.Application.Services
                         "Cliente {Nome}: aporte insuficiente para 1 ação de {Ticker}. " +
                         "Saldo residual atualizado.", cliente.Nome, ordem.Ticker);
 
-                    // O aporte vira resíduo total (não comprou nada)
                     cliente.AtualizarSaldoResidual(aporteCliente);
                     await _clienteRepository.AtualizarAsync(cliente, ct);
                     continue;
                 }
-
-                // Cria o registro de rateio com cálculo de IR Dedo-Duro e resíduo
                 var rateio = RateioOrdem.Criar(
                     ordemCompraId: ordem.Id,
                     clienteId: cliente.Id,
@@ -377,19 +294,12 @@ namespace ItauCorretora.Application.Services
                 );
 
                 ordem.AdicionarRateio(rateio);
-
-                // PASSO 7: Atualizar (ou criar) custódia com novo Preço Médio
                 await AtualizarCustodiaClienteAsync(
                     cliente, ordem.Ticker, qtdRateada, ordem.PrecoUnitario, ct);
 
-                // PASSO 8: Publicar evento de IR Dedo-Duro no Kafka
                 await PublicarIrDedoDuroAsync(rateio, ordem.Ticker, ct);
 
-                // PASSO 9: Atualizar saldo residual do cliente para próximo ciclo
-                // O resíduo é: Aporte - Valor efetivamente investido neste ciclo
-                // Mas o SaldoResidual que somamos ao aporte JÁ foi consumido,
-                // então zeramos primeiro e salvamos apenas o novo resíduo
-                cliente.ConsumirSaldoResidual(); // Zera o resíduo anterior (já usado)
+                cliente.ConsumirSaldoResidual(); 
                 cliente.AtualizarSaldoResidual(rateio.ResidualCliente);
                 await _clienteRepository.AtualizarAsync(cliente, ct);
 
@@ -415,12 +325,6 @@ namespace ItauCorretora.Application.Services
         // ATUALIZAÇÃO DE CUSTÓDIA (com Preço Médio)
         // =========================================================
 
-        /// <summary>
-        /// Atualiza a custódia do cliente com as novas ações recebidas no rateio.
-        /// Se não existir custódia, cria uma nova.
-        /// O Preço Médio é sempre recalculado na compra:
-        ///   PM = (QtdAnt * PMAnt + QtdNova * PrecoNova) / (QtdAnt + QtdNova)
-        /// </summary>
         private async Task AtualizarCustodiaClienteAsync(
             Cliente cliente,
             string ticker,
@@ -445,7 +349,6 @@ namespace ItauCorretora.Application.Services
             }
             else
             {
-                // Custódia existente: atualiza PM com a nova compra
                 var pmAnterior = custodiaExistente.PrecoMedio;
                 custodiaExistente.RegistrarCompra(qtdComprada, precoCompra);
 
@@ -484,15 +387,7 @@ namespace ItauCorretora.Application.Services
         // IR SOBRE VENDAS (REBALANCEAMENTO)
         // =========================================================
 
-        /// <summary>
-        /// Verifica e apura o IR sobre lucro em vendas no mês.
-        ///
-        /// REGRA:
-        ///   - Se total de vendas do mês > R$ 20.000,00: IR = 20% sobre o lucro líquido
-        ///   - Se total de vendas do mês ≤ R$ 20.000,00: ISENTO
-        ///   - Lucro Líquido = Valor Venda - (Qtd * PM)
-        ///   - Vendas com prejuízo reduzem a base de cálculo
-        /// </summary>
+
         public async Task ApurarIrSobreVendaMensalAsync(
             Cliente cliente,
             ResultadoVenda resultadoVenda,
@@ -504,7 +399,6 @@ namespace ItauCorretora.Application.Services
             var totalVendasMes = await _custodiaRepository
                 .SomarVendasDoMesAsync(cliente.Id, hoje.Month, hoje.Year, ct);
 
-            // Acumula com a venda atual
             totalVendasMes += resultadoVenda.ValorTotalVenda;
 
             _logger.LogInformation(
@@ -523,11 +417,8 @@ namespace ItauCorretora.Application.Services
                 return;
             }
 
-            // Apura IR sobre o lucro líquido
-            // Lucro Líquido = Valor Total Venda - (Qtd * Preço Médio)
             var lucroLiquido = resultadoVenda.LucroLiquido;
 
-            // Prejuízo não gera IR (mas pode ser compensado em meses futuros — fora do escopo)
             if (lucroLiquido <= 0)
             {
                 _logger.LogInformation(
@@ -542,7 +433,6 @@ namespace ItauCorretora.Application.Services
                 "IR (20%%): R$ {IR:F2}",
                 cliente.Nome, lucroLiquido, irApurado);
 
-            // Publica evento de IR sobre venda no Kafka
             await _eventPublisher.PublicarIrVendaAsync(new IrVendaEvent
             {
                 ClienteId = cliente.Id,
@@ -552,7 +442,7 @@ namespace ItauCorretora.Application.Services
                 TotalVendasMes = totalVendasMes,
                 TotalCustoAquisicao = resultadoVenda.CustoAquisicao,
                 LucroLiquidoMes = lucroLiquido,
-                AliquotaPercentual = AliquotaIrVendas * 100, // Armazena como 20 (%)
+                AliquotaPercentual = AliquotaIrVendas * 100, 
                 ValorIrApurado = irApurado,
                 IsencaoAplicada = false
             }, ct);
