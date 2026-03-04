@@ -64,6 +64,41 @@ namespace ItauCorretora.Api.Controllers
             }
         }
 
+       [HttpGet("dashboard/{cpf}")]
+        public async Task<IActionResult> GetDashboardPorCpf(string cpf, CancellationToken ct)
+        {
+            _logger.LogInformation("Buscando dashboard para o CPF {Cpf}", cpf);
+
+            var clientes = await _clienteRepository.ObterClientesAtivosAsync(ct);
+            var cliente = clientes.FirstOrDefault(c => c.Cpf == cpf);
+
+            if (cliente == null)
+                return NotFound(new { mensagem = "Cliente não encontrado com este CPF." });
+
+                try
+                    {
+                        var rentabilidadeResponse = await _rentabilidadeService.CalcularRentabilidadeAsync(cliente.Id, ct);
+                        return Ok(new 
+                        {
+                            nome = cliente.Nome,
+                            valorTotalInvestido = rentabilidadeResponse.Rentabilidade.ValorTotalInvestido,
+                            saldoResidual = cliente.SaldoResidual,
+                            rentabilidadeTotal = rentabilidadeResponse.Rentabilidade.RentabilidadePercentual,
+                            custodia = rentabilidadeResponse.Ativos.Select(a => new {
+                                ticker = a.Ticker,
+                                quantidade = a.Quantidade,
+                                precoMedio = a.PrecoMedio,
+                                valorAtual = a.ValorAtual
+                            })
+                        });
+                    }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao calcular dashboard para o CPF {Cpf}", cpf);
+                return StatusCode(500, new { erro = "Erro ao processar dados do dashboard." });
+            }
+        }
+
         [HttpPost("{clienteId}/saida")]
         public async Task<IActionResult> Sair(Guid clienteId, CancellationToken ct)
         {
