@@ -30,12 +30,13 @@ namespace ItauCorretora.Infrastructure.Repositories
 
         public async Task<decimal> SomarVendasDoMesAsync(Guid clienteId, int mes, int ano, CancellationToken ct = default)
         {
-            return await _context.Set<RateioOrdem>()
-                .Where(r => r.ClienteId == clienteId)
-                .Where(r => _context.OrdensCompra.Any(o => o.Id == r.OrdemCompraId && 
-                                                        o.DataExecucao.Month == mes && 
-                                                        o.DataExecucao.Year == ano))
+            var comprasDoMes = await _context.Set<ItauCorretora.Domain.Entities.OrdemCompra>()
+                .Where(o => o.DataExecucao.Month == mes && o.DataExecucao.Year == ano)
+                .SelectMany(o => o.Rateios) 
+                .Where(r => r.ClienteId == clienteId) 
                 .SumAsync(r => r.ValorFinanceiroRateio, ct);
+
+            return comprasDoMes;
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ItauCorretora.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b61404c6f19016dbb11067fdfc4f5cdaa261f07d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+11782d7fc7c6d9ee3982beb2de59c01ad8c39225")]
 [assembly: System.Reflection.AssemblyProductAttribute("ItauCorretora.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ItauCorretora.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
